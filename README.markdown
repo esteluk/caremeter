@@ -7,3 +7,8 @@ Requirements
 ------------
 
 Presently only runs on Froyo.
+
+Build instructions
+------------------
+
+Import into Eclipse as project with ADT installed. ... Profit!
