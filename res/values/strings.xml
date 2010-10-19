@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello, Android! I am a string resource! </string>
+    <string name="app_name">Give-a-damn meter</string>
+    <string name="change_style">Meter style</string>
+    <string name="change_text">Meter title</string>
+</resources>

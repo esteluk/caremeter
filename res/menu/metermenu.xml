@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item		android:id="@+id/change_style"
+				android:icon="@android:drawable/ic_menu_gallery"
+				android:title="@string/change_style" />
+	<item		android:id="@+id/change_text"
+				android:icon="@android:drawable/ic_menu_edit"
+				android:title="@string/change_text" />
+</menu>
