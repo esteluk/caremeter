@@ -1,14 +1,14 @@
 Stuff-o-meter
 =============
 
-This version of the app lacks drawables vumeter_1 and vumeter_2, which can not be included here as a result of their license restrictions.
+This version of the app lacks drawables vumeter_1 and vumeter_2, which are not included due to license restrictions.
 
 Requirements
 ------------
 
-Presently only runs on Froyo.
+Runs on Android 1.5+
 
 Build instructions
 ------------------
 
-Import into Eclipse as project with ADT installed. ... Profit!
+Import into Eclipse as project with ADT installed.
