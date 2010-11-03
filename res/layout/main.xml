@@ -32,9 +32,18 @@
 					android:textColor="#fff"
 					android:gravity="center_horizontal"
 					android:text="" />
-	<ImageView		android:id="@+id/fixed_needle"
+	<LinearLayout
+					android:orientation="vertical"
 					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:gravity="center_horizontal|bottom"
+					android:layout_alignParentBottom="true">
+	<ImageView		android:id="@+id/fixed_needle"
+					android:layout_width="2dp"
 					android:layout_height="250dp"
+					android:scaleType="fitXY"
 					android:layout_alignParentBottom="true"
-					android:src="@drawable/needle_red" />
+					android:gravity="center_horizontal"
+					android:src="@drawable/redneedle" />
+	</LinearLayout>
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Display;
@@ -36,6 +37,7 @@ public class CareMeter extends Activity {
 	public float needlePositionf = 0f;
 	static final int DIALOG_TEXT_ID = 0;
 	static final int DIALOG_METER_ID = 1;
+	static final int DIALOG_ABOUT_ID = 2;
 	
 	final RotateAnimation position = new RotateAnimation(90f, 90f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 1f);
 	RotateAnimation wobble;
@@ -46,7 +48,7 @@ public class CareMeter extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); 
         setContentView(R.layout.main);
 
         mMeterTextTop = (TextView) findViewById(R.id.metertexttop);
@@ -66,7 +68,7 @@ public class CareMeter extends Activity {
         
         mFixedNeedle = (ImageView) findViewById(R.id.fixed_needle);
         
-        wobble = new RotateAnimation(needlePositionf - 1f, needlePositionf + 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 1.7f);
+        wobble = new RotateAnimation(needlePositionf - 1f, needlePositionf + 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 1.35f);
     	wobble.setInterpolator(new LinearInterpolator());
     	wobble.setRepeatCount(Animation.INFINITE);
     	wobble.setRepeatMode(Animation.REVERSE);
@@ -91,6 +93,12 @@ public class CareMeter extends Activity {
     			return true;
     		case R.id.change_style:
     			showDialog(1);
+    			return true;
+    		case R.id.menu_about:
+    			/*Intent intent = new Intent();
+    			intent.setClassName("com.gravitywell.caremeter", "com.gravitywell.caremeter.About");
+    			startActivity(intent);*/
+    			showDialog(2);
     			return true;
     		default:
     				return super.onOptionsItemSelected(item);
@@ -124,6 +132,9 @@ public class CareMeter extends Activity {
     			break;
     		case DIALOG_METER_ID:
     			dialog = meterAlert();
+    			break;
+    		case DIALOG_ABOUT_ID:
+    			dialog = aboutDialog();
     			break;
     		default: 
     			dialog = null;
@@ -177,19 +188,29 @@ public class CareMeter extends Activity {
     	return alert;
     }
     
+    public Dialog aboutDialog() {
+    	// Context mContext = getApplicationContext();
+    	Dialog Adialog = new Dialog(CareMeter.this);
+    	
+    	Adialog.setContentView(R.layout.about);
+    	Adialog.setTitle("About Care-meter");
+    	
+    	return Adialog;
+    }
+    
     public void updateMeter(int value) {
 		ImageView image = (ImageView) findViewById(R.id.meterimage);
 		mFixedNeedle = (ImageView) findViewById(R.id.fixed_needle);
 		if(value==0) {
 			image.setImageResource(R.drawable.vumeter_1);
-			mFixedNeedle.setImageDrawable(getResources().getDrawable(R.drawable.needle_red));
+			mFixedNeedle.setImageDrawable(getResources().getDrawable(R.drawable.redneedle));
 			mMeterTextTop.setVisibility(4);
 			mMeterTextBottom.setVisibility(0);
 			meter = 0;
 		}
 		else if(value==1) {
 			image.setImageResource(R.drawable.vumeter_2);
-			mFixedNeedle.setImageDrawable(getResources().getDrawable(R.drawable.needle_green));
+			mFixedNeedle.setImageDrawable(getResources().getDrawable(R.drawable.greenmeter));
 			mMeterTextTop.setVisibility(0);
 			mMeterTextBottom.setVisibility(4);
 			meter = 1;
@@ -201,11 +222,6 @@ public class CareMeter extends Activity {
     	text = passed_text;	
     	mMeterTextTop.setText(passed_text);
     	mMeterTextBottom.setText(passed_text);
-    }
-    
-    public void uncertainNeedle() {
-    	final ImageView quiver = (ImageView) findViewById(R.id.fixed_needle);
-    	//quiver.startAnimation(anim);
     }
     
     private OnTouchListener needleMoveListener = new OnTouchListener() {
@@ -221,7 +237,7 @@ public class CareMeter extends Activity {
     		double height = (double) display.getHeight();
     		    		
     		double rel_x = x - width/2;
-    		double rel_y = (height - y) + 2*height/5;
+    		double rel_y = (height - y) + height/3;
     		
     		double angle = Math.toDegrees(Math.atan(rel_y / rel_x));
     		
@@ -234,19 +250,15 @@ public class CareMeter extends Activity {
     			angle = 122f;
     		
     		updateNeedlePosition(angle);
-    		//updateText(Double.toString(angle));
     		
     		return true;
     	}
     };
     
     public void updateNeedlePosition(double angle) {
-    	/* ImageView b = (ImageView) findViewById(R.id.fixed_needle);
-    	RotateDrawable needle = (RotateDrawable) b.getDrawable(); */
-    	
     	needlePositionf = (float) needlePosition;
     	float anglef = (float) angle;
-    	RotateAnimation moveNeedle = new RotateAnimation(needlePositionf, 90f - anglef, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 1.4f);
+    	RotateAnimation moveNeedle = new RotateAnimation(needlePositionf, 90f - anglef, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 1.35f);
     	moveNeedle.setInterpolator(new LinearInterpolator());
     	moveNeedle.setDuration(1000);
     	moveNeedle.setFillAfter(true);
@@ -256,7 +268,7 @@ public class CareMeter extends Activity {
     	final ImageView fixed_needle = (ImageView) findViewById(R.id.fixed_needle);
     	fixed_needle.startAnimation(moveNeedle);
     	
-    	wobble = new RotateAnimation(needlePositionf - 1f, needlePositionf + 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 1.4f);
+    	wobble = new RotateAnimation(needlePositionf - 1f, needlePositionf + 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 1.35f);
     	wobble.setInterpolator(new LinearInterpolator());
     	wobble.setRepeatCount(Animation.INFINITE);
     	wobble.setRepeatMode(Animation.REVERSE);

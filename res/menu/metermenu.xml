@@ -6,4 +6,7 @@
 	<item		android:id="@+id/change_text"
 				android:icon="@android:drawable/ic_menu_edit"
 				android:title="@string/change_text" />
+	<item		android:id="@+id/menu_about"
+				android:icon="@android:drawable/ic_menu_info_details"
+				android:title="@string/about" />
 </menu>
