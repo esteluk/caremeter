@@ -113,7 +113,7 @@ public class CareMeter extends Activity {
     	SharedPreferences settings = getPreferences(0);
     	SharedPreferences.Editor editor = settings.edit();
     	editor.putString("meter_text", text);
-    	//editor.putInt("meter", )
+    	editor.putInt("meter", meter);
     	
     	// Saves stuff
     	editor.commit();
@@ -144,15 +144,18 @@ public class CareMeter extends Activity {
     }
     
     public AlertDialog titleAlert() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		AlertDialog.Builder builder;
+		AlertDialog alertDialog;
 		
-		builder.setTitle("Title");
-		builder.setMessage("Message");
+		LayoutInflater inflater = (LayoutInflater) StuffMeter.this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.title_dialog, (ViewGroup) findViewById(R.id.root_view));
 		
-		// Set an EditText view to get user input
-		final EditText input = new EditText(this);
-		builder.setView(input);
+		final EditText input = (EditText) layout.findViewById(R.id.title_dialog_input);
 		
+		builder = new AlertDialog.Builder(StuffMeter.this);
+		builder.setView(layout);
+		builder.setTitle("Meter text");
+				
 		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				// Save input text
@@ -168,8 +171,8 @@ public class CareMeter extends Activity {
 			}
 		});
 		
-		AlertDialog dialog = builder.create(); 
-		return dialog;
+		alertDialog = builder.create(); 
+		return alertDialog;
     }
     
     public AlertDialog meterAlert() {
